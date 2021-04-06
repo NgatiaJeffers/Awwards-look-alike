@@ -30,7 +30,7 @@ def post(request):
         return redirect("index")
     else:
         form=PostForm()
-    return render(request,"main/post.html",{'form':form})
+    return render(request,"post.html",{'form':form})
 
 @login_required(login_url='/accounts/login/')
 def profile(request):

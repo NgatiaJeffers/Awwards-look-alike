@@ -1,10 +1,11 @@
-{% extends "base.html" %}
+{%extends 'base.html'%}
 {% load static %}
 {% load cloudinary %}
+{%load bootstrap4%}
 
 {{block.super}}
-
-{% block content %}
+{%block content%}
+{%for i in projects%}
 <div style="background-image:url({{i.image.url}});" class=" single">
     <div class="overlay">
         <div class="container">
@@ -31,7 +32,7 @@
                 <div class="col-md-3">
                     {%if user.is_authenticated%}
 
-                    <button id='love' class="btn btn-outline-default" type="button" name="button">Vote</button>
+                    <button id='love' class="btn btn-outline-default" type="button" name="button">Rate</button>
                     {%if user.id   not in   auth   %}
                     <br>
                     <div class="form animated fadeIn">
@@ -47,7 +48,7 @@
                     {%endif%}
                     {%else%}
                     <a href="/accounts/login/"><button class="btn btn-outline-default" type="button" name="button">Login
-                            to vote</button></a>
+                            to rate</button></a>
                     {%endif%}
                 </div>
             </div>
@@ -196,4 +197,5 @@
     </div>
     <br><br><br>
 </div>
-{% endblock %}
+
+{%endblock%}
