@@ -16,7 +16,7 @@ def index(request):
         projects = Projects.objects.all()
     except Exception as e:
         raise Http404()
-    return render(request, "main/index.html", {"projects": projects})
+    return render(request, "index.html", {"projects": projects})
 
 @login_required(login_url='/accounts/login/')
 def post(request):
@@ -30,7 +30,8 @@ def post(request):
         return redirect("index")
     else:
         form=PostForm()
-    return render(request,'post.html',{'form':form})
+    return render(request,"main/post.html",{'form':form})
+
 @login_required(login_url='/accounts/login/')
 def profile(request):
     current_user=request.user
@@ -48,7 +49,7 @@ def profile(request):
         return redirect('profile')
     else:
         form=UpdateForm()
-    return render(request,'profile.html', {'form':form,'profile':profis,'projects':user_projects})
+    return render(request,"profile.html'", {'form':form,'profile':profis,'projects':user_projects})
 
 def project_detail(request,project_id):
     try:
@@ -128,7 +129,7 @@ def project_detail(request,project_id):
         user_comment=Comments.objects.filter(pro_id=project_id)
     except Exception as e:
         raise Http404()
-    return render(request,'details.html',{'projects':projects,'form':form,'usability':average_usa,'design':average_des,'content':average_con,'average':averageRating,'auth':auth,'all':all,'ave':ave,'review':review,'comments':user_comment})
+    return render(request, "details.html", {'projects':projects,'form':form,'usability':average_usa,'design':average_des,'content':average_con,'average':averageRating,'auth':auth,'all':all,'ave':ave,'review':review,'comments':user_comment})
 def search(request):
 
     if 'name' in request.GET and   request.GET['name']:
