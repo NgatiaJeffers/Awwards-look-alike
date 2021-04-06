@@ -5,6 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import PostForm,RateForm,ReviewForm,UpdateForm
 from django.contrib.auth import logout as django_logout
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import ProjectSerializer,ProfileSerializer
 
 # Create your views here.
 def index(request):
@@ -141,3 +144,28 @@ def search(request):
 def logout(request):
     django_logout(request)
     return  HttpResponseRedirect('/')
+
+class ProjectList(APIView):
+    def get(self,request,format=None):
+        all_projects=Projects.objects.all()
+        serializers=ProjectSerializer(all_projects,many=True)
+        return Response(serializers.data)
+
+@login_required(login_url='/accounts/login/')
+def apiView(request):
+    current_user=request.user
+    title="Api"
+    profis=Profile.objects.filter(user=current_user)[0:1]
+    return render(request,'api.html',{"title":title,'profile':profis})
+
+@login_required
+def logout(request):
+    django_logout(request)
+    return  HttpResponseRedirect('/')
+
+
+class ProfileList(APIView):
+    def get(self,request,format=None):
+        all_profiles=Profile.objects.all()
+        serializers=ProfileSerializer(all_profiles,many=True)
+        return Response(serializers.data)

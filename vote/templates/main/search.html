@@ -1,13 +1,12 @@
-{% extends "base.html" %}
-{% load static %}
+{%extends 'base.html'%}
 {% load cloudinary %}
-
-{% block content %}
+{{block.super}}
+{%block content%}
 <div class="home">
     <div class="overly">
         <br><br><br>
-        <h4 id="awa">Awwards App</h4>
-        <p>Bddd/p>
+        <h4 id="awa">Awwwards App</h4>
+        <p>Rate your fav website</p>
         <button class="btn btn-outline-default" type="button" name="button">Design</button>
         <button class="btn btn-outline-danger" type="button" name="button">Usability</button>
         <button class="btn btn-outline-primary" type="button" name="button">Creativity</button>
@@ -16,9 +15,21 @@
     </div>
 </div>
 <br>
-
-
 <div class="container-fluid">
+    <div class="col-md-6">
+        {%if projects%}
+        <h3>Found {{projects|length}}</h3>
+        {%else%}
+        <h3>Found {{projects|length}} Related results</h3><br>
+        <p class="alert alert-info">No result found</p>
+        <ul class="list-group">
+            <li class="list-group-item">Try using English</li>
+            <li class="list-group-item">Try using Words like Marine, Bozar</li>
+            <li class="list-group-item">Use key words Dont type too much</li>
+
+        </ul>
+        {%endif%}
+    </div>
     <div class="row">
         {%for project in projects%}
         <div class="col-md-4">
@@ -37,14 +48,15 @@
                         <p>by {{project.user}}</p>
                     </div>
                 </div>
-
             </div>
             <br>
         </div>
 
         {%endfor%}
 
+
     </div>
 
 </div>
-{% endblock %}
+
+{%endblock%}
