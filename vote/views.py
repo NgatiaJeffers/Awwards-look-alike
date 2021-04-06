@@ -27,10 +27,10 @@ def post(request):
             post=form.save(commit=False)
             post.user=current_user
             post.save()
-        return redirect("index")
+        return redirect("projects")
     else:
         form=PostForm()
-    return render(request,"post.html",{'form':form})
+    return render(request, "post.html" ,{'form':form})
 
 @login_required(login_url='/accounts/login/')
 def profile(request):
@@ -158,7 +158,7 @@ def apiView(request):
     title="Api"
     profiles =Profile.objects.filter(user=current_user)[0:1]
     return render(request,'api.html',{"title":title,'profile':profiles})
-    
+
 class ProfileList(APIView):
     def get(self,request,format=None):
         all_profiles=Profile.objects.all()
