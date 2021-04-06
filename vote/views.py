@@ -49,7 +49,7 @@ def profile(request):
         return redirect('profile')
     else:
         form=UpdateForm()
-    return render(request,"profile.html'", {'form':form,'profile':profis,'projects':user_projects})
+    return render(request, "profile.html", {'form':form,'profile':profis,'projects':user_projects})
 
 def project_detail(request,project_id):
     try:
@@ -156,8 +156,8 @@ class ProjectList(APIView):
 def apiView(request):
     current_user=request.user
     title="Api"
-    profis=Profile.objects.filter(user=current_user)[0:1]
-    return render(request,'api.html',{"title":title,'profile':profis})
+    profiles =Profile.objects.filter(user=current_user)[0:1]
+    return render(request,'api.html',{"title":title,'profile':profiles})
 
 @login_required
 def logout(request):

@@ -5,9 +5,8 @@
 {{block.super}}
 {%block content%}
 <div class="container">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6 mt-5">
             <div class="loggi">
                 <h2>Submit Your Project</h2>
                 <form class="form-group" action="/project/post/" method="POST" enctype="multipart/form-data">
@@ -17,13 +16,7 @@
                     <br> <br>
                 </form>
             </div>
-
         </div>
-        <div class="col-md-3"></div>
-
     </div>
-
-
 </div>
-
 {%endblock%}

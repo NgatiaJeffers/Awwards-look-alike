@@ -4,7 +4,7 @@ from .models import Projects,Profile
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model=Profile
-        fields=('profile','bio','user','phone')
+        fields=('profile','bio','user')
 
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
