@@ -1,9 +1,9 @@
-from .models import Projects,Rates,Comments,Profile
+from .models import Projects,Votes,Comments,Profile
 from django import forms
 
 class RateForm(forms.ModelForm):
     class Meta:
-        model=Rates
+        model=Votes
         exclude=['user','project']
 
 class PostForm(forms.ModelForm):

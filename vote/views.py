@@ -3,6 +3,8 @@ from .models import Projects, Votes, Comments, Profile
 from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from .forms import PostForm,RateForm,ReviewForm,UpdateForm
+from django.contrib.auth import logout as django_logout
 
 # Create your views here.
 def index(request):
@@ -48,7 +50,7 @@ def profile(request):
 def project_detail(request,project_id):
     try:
         projects=Projects.objects.filter(id=project_id)
-        all=Rates.objects.filter(project=project_id)
+        all=Votes.objects.filter(project=project_id)
     except Exception as e:
         raise Http404()
     #user single
@@ -77,7 +79,7 @@ def project_detail(request,project_id):
         form=RateForm()
 
     #logic
-    votes=Rates.objects.filter(project=project_id)
+    votes=Votes.objects.filter(project=project_id)
     usability=[]
     design=[]
     content=[]
@@ -134,3 +136,8 @@ def search(request):
     else:
         message="You havent searched any project"
         return render(request,'search.html',{'message':message})
+
+@login_required
+def logout(request):
+    django_logout(request)
+    return  HttpResponseRedirect('/')
