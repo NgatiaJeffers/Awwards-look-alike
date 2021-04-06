@@ -14,6 +14,7 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import django_heroku
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'awards.urls'
@@ -159,3 +161,6 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 LOGIN_REDIRECT_URL='/'
 REGISTRATION_OPEN=True
+
+# Configure Django App for Heroku.
+django_heroku.settings(locals())
