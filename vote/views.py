@@ -158,13 +158,7 @@ def apiView(request):
     title="Api"
     profiles =Profile.objects.filter(user=current_user)[0:1]
     return render(request,'api.html',{"title":title,'profile':profiles})
-
-@login_required
-def logout(request):
-    django_logout(request)
-    return  HttpResponseRedirect('/')
-
-
+    
 class ProfileList(APIView):
     def get(self,request,format=None):
         all_profiles=Profile.objects.all()

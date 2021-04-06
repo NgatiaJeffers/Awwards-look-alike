@@ -57,11 +57,11 @@
 
             </div>
 
-            <div class="ml-2">
+            <div class="mr-4">
             {% if user.is_authenticated %}
                 <i class="far fa-user"></i>
-                <a style="color:black;padding:10px" href="{%url 'profile'%}">
-                    {{user}}
+                <a style="color:black;padding:10px" href="{% url 'profile' %}">
+                    {{ user }}
                 </a>
             {% else %}
                 <strong>
@@ -71,7 +71,7 @@
             </div>
 
             <div class="item has-tablet" id="bt-submit">
-                <a href="{%url 'post'%}" class="button button-large">
+                <a href="{% url 'post' %}" class="button button-large">
                     <span>SUBMIT YOUR SITE!</span>
                 </a>
 
