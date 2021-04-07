@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_registration',
     'rest_framework',
     'rest_framework.authtoken',
+    'coverage',
 ]
 
 cloudinary.config( 
