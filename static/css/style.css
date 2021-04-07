@@ -35,9 +35,7 @@ body {
   width: 100%;
   zoom:102%;
 }
-.dta,.fa-pastafarianism{
-  float: right;
-}
+
 /* img:hover{
   zoom:101%;
   transition: 800ms;
@@ -185,11 +183,7 @@ strong{
   width: auto;
 }
 
-.navbar{
-  background-color: #f4f7f6!important;
-  box-shadow: none !important;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-}
+
 #title{
   margin-right: 350px;
   font-weight: 500;
@@ -281,13 +275,7 @@ strong{
   padding: 7px !important;
   width: 80%;
 }
-#logg{
-  background-image: url(../img/bg.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  /* background-attachment: fixed; */
-}
+
 #profile{
   background-color: white !important;
   box-shadow: :none!important;
@@ -299,15 +287,7 @@ strong{
   color: white;
   box-shadow: 1px 1px 5px black;
 }
-.improfile{
-  background-image: url(../img/bg.jpg);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  height: 30vh;
 
-
-}
 .over{
     padding: 10px;
     height: 30vh;
