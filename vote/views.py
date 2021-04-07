@@ -18,128 +18,150 @@ def index(request):
         raise Http404()
     return render(request, "index.html", {"projects": projects})
 
-@login_required(login_url='/accounts/login/')
+@login_required(login_url = '/accounts/login/')
 def post(request):
-    current_user=request.user
-    if request.method=='POST':
-        form =PostForm(request.POST,request.FILES)
+    current_user = request.user
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post=form.save(commit=False)
-            post.user=current_user
+            post = form.save(commit = False)
+            post.user = current_user
             post.save()
         return redirect("projects")
     else:
-        form=PostForm()
-    return render(request, "post.html" ,{'form':form})
+        form = PostForm()
+    return render(request, "post.html", {'form':form})
 
-@login_required(login_url='/accounts/login/')
+
+'''Ratings/Votings'''
+@login_required(login_url = '/accounts/login/')
 def profile(request):
-    current_user=request.user
+    current_user = request.user
     try:
-        profis=Profile.objects.filter(user=current_user)[0:1]
-        user_projects=Projects.objects.filter(user=current_user)
+        profis = Profile.objects.filter(user = current_user)[0:1]
+        user_projects = Projects.objects.filter(user = current_user)
     except Exception as e:
         raise  Http404()
-    if request.method=='POST':
-        form=UpdateForm(request.POST,request.FILES)
+    if request.method == 'POST':
+        form = UpdateForm(request.POST,request.FILES)
         if form.is_valid():
-            profile=form.save(commit=False)
-            profile.user=request.user
-            profile.save()
+            profile = form.save(commit = False)
+            profile.user = request.user
+            profile.save() 
         return redirect('profile')
     else:
-        form=UpdateForm()
-    return render(request, "profile.html", {'form':form,'profile':profis,'projects':user_projects})
+        form = UpdateForm()
+    return render(request, "profile.html", {'form':form, 'profile':profis, 'projects':user_projects})
 
 def project_detail(request,project_id):
     try:
-        projects=Projects.objects.filter(id=project_id)
-        all=Votes.objects.filter(project=project_id)
+        projects = Projects.objects.filter(id = project_id)
+        all = Votes.objects.filter(project = project_id)
     except Exception as e:
         raise Http404()
     #user single
-    count=0
+    count = 0
+
     for i in all:
-        count+=i.usability
-        count+=i.design
-        count+=i.content
+        count += i.usability
+        count += i.design
+        count += i.content
 
-    if count>0:
-        ave=round(count/3,1)
+    if count > 0:
+        ave = round(count/3,1)
+
     else:
-        ave=0
+        ave = 0
 
 
-    if request.method=='POST':
-        form=RateForm(request.POST)
+    if request.method == 'POST':
+        form = RateForm(request.POST)
         if form.is_valid():
-            rate=form.save(commit=False)
-            rate.user=request.user
-            rate.project=project_id
+            rate = form.save(commit = False)
+            rate.user = request.user
+            rate.project = project_id
             #review
             rate.save()
-            return redirect('details',project_id)
+            return redirect('details', project_id)
     else:
-        form=RateForm()
+        form = RateForm()
 
     #logic
-    votes=Votes.objects.filter(project=project_id)
-    usability=[]
-    design=[]
-    content=[]
+    votes = Votes.objects.filter(project = project_id)
+    usability = []
+    design = []
+    content = []
 
     for i in votes:
         usability.append(i.usability)
         design.append(i.design)
         content.append(i.content)
+
     if len(usability) > 0 or len(design)> 0 or len(content) >0:
 
-        average_usa=round(sum(usability)/len(usability),1)
-        average_des=round(sum(design)/len(design),1)
-        average_con=round(sum(content)/len(content),1)
+        average_usa = round(sum(usability)/len(usability),1)
+        average_des = round(sum(design)/len(design),1)
+        average_con = round(sum(content)/len(content),1)
 
-        averageRating=round((average_con+average_des+average_usa)/3,1)
+        averageRating = round((average_con + average_des + average_usa)/3,1)
+
     else:
-        average_usa=0.0
-        average_des=0.0
-        average_con=0.0
-        averageRating=0.0
+        average_usa = 0.0
+        average_des = 0.0
+        average_con = 0.0
+        averageRating = 0.0
+
     '''
     Restricting user to rate only once
     '''
-    arr1=[]
+    arr1 = []
     for use in votes:
         arr1.append(use.user_id)
 
     auth=arr1
 
 
-    if request.method=='POST':
-        review=ReviewForm(request.POST)
+    if request.method == 'POST':
+        review = ReviewForm(request.POST)
+
         if review.is_valid():
-            comment=review.save(commit=False)
-            comment.user=request.user
-            comment.pro_id=project_id
+            comment = review.save(commit=False)
+            comment.user = request.user
+            comment.pro_id = project_id
             comment.save()
+
             return redirect('details',project_id)
     else:
-        review=ReviewForm()
+        review = ReviewForm()
 
     try:
-        user_comment=Comments.objects.filter(pro_id=project_id)
+        user_comment = Comments.objects.filter(pro_id=project_id)
+
     except Exception as e:
         raise Http404()
-    return render(request, "details.html", {'projects':projects,'form':form,'usability':average_usa,'design':average_des,'content':average_con,'average':averageRating,'auth':auth,'all':all,'ave':ave,'review':review,'comments':user_comment})
+
+    return render(request, "details.html", {'projects':projects, 
+                                            'form':form, 
+                                            'usability':average_usa, 
+                                            'design':average_des, 
+                                            'content':average_con, 
+                                            'average':averageRating, 
+                                            'auth':auth, 
+                                            'all':all, 
+                                            'ave':ave, 
+                                            'review':review, 
+                                            'comments':user_comment})
+
+'''Search Function'''
 def search(request):
+    if 'name' in request.GET and request.GET['name']:
+        term = request.GET.get('name')
+        results = Projects.search_project(term)
 
-    if 'name' in request.GET and   request.GET['name']:
-        term=request.GET.get('name')
-        results=Projects.search_project(term)
-
-        return render(request,'search.html',{'projects':results})
+        return render(request,'search.html', {'projects':results})
     else:
-        message="You havent searched any project"
-        return render(request,'search.html',{'message':message})
+        message = "You havent searched any project"
+        return render(request,'search.html', {'message':message})
 
 @login_required
 def logout(request):
@@ -148,19 +170,22 @@ def logout(request):
 
 class ProjectList(APIView):
     def get(self,request,format=None):
-        all_projects=Projects.objects.all()
-        serializers=ProjectSerializer(all_projects,many=True)
+        all_projects = Projects.objects.all()
+        serializers = ProjectSerializer(all_projects,many=True)
+
         return Response(serializers.data)
 
 @login_required(login_url='/accounts/login/')
 def apiView(request):
-    current_user=request.user
-    title="Api"
-    profiles =Profile.objects.filter(user=current_user)[0:1]
-    return render(request,'api.html',{"title":title,'profile':profiles})
+    current_user = request.user
+    title = "Api"
+    profiles = Profile.objects.filter(user = current_user)[0:1]
+
+    return render(request,'api.html',{"title":title, 'profile':profiles})
 
 class ProfileList(APIView):
     def get(self,request,format=None):
-        all_profiles=Profile.objects.all()
-        serializers=ProfileSerializer(all_profiles,many=True)
+        all_profiles = Profile.objects.all()
+        serializers = ProfileSerializer(all_profiles, many=True)
+
         return Response(serializers.data)
