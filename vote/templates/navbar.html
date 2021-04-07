@@ -16,12 +16,15 @@
                 </a>
             </div>
         </div>
+        <form class="form-inline ml-2" action="{% url 'search' %}">
+            <input class="form-control mr-1" type="search" placeholder="Search" aria-label="Search">
+            <!-- <button class="btn btn-info" type="submit"><i class="fas fa-search"></i></button> -->
+        </form>
         <div class="box-right">
             <div class="item bt-search " id="js-search-container">
                 <svg class="ico-svg" viewbox="0 0 14 14">
                     <use xlink:href="https://www.awwwards.com/assets/images/sprite-icons.svg#search"></use>
                 </svg>
-
             </div>
 
             <div class="mr-4">
